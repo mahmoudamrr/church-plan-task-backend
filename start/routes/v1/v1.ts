@@ -16,21 +16,32 @@ Route.group(() => {
    * Artist Group Routes
    */
   Route.group(() => {
-    //Artist Routes
+    Route.get('/', 'ArtistsController.index')
+    Route.get('/:id', 'ArtistsController.show')
+    Route.post('/', 'ArtistsController.store')
+    Route.put('/:id', 'ArtistsController.update')
+    Route.delete('/:id', 'ArtistsController.destroy')
   }).prefix('/artist')
 
   /**
-   * Artist Group Routes
+   * Song Group Routes
    */
   Route.group(() => {
-    //Song Routes
+    Route.get('/', 'SongsController.index')
+    Route.get('/:id', 'SongsController.show')
+    Route.post('/', 'SongsController.store')
+    Route.put('/:id', 'SongsController.update')
+    Route.delete('/:id', 'SongsController.destroy')
   }).prefix('/song')
 
   /**
    * Album Group Routes
    */
-
   Route.group(() => {
-    //Album Routes
+    Route.get('/', 'AlbumsController.index')
+    Route.get('/:id', 'AlbumsController.show')
+    Route.post('/', 'AlbumsController.store')
+    Route.put('/:id', 'AlbumsController.update')
+    Route.delete('/:id', 'AlbumsController.destroy')
   }).prefix('/album')
 }).prefix('/v1')
