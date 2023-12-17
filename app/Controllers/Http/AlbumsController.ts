@@ -1,8 +1,7 @@
-import { inject } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AlbumService from 'App/Services/Album/AlbumService'
+import AlbumValidator from 'App/Validators/AlbumValidator'
 
-@inject()
 export default class AlbumsController {
   constructor(private readonly albumService: AlbumService) {}
 
@@ -22,6 +21,10 @@ export default class AlbumsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
+    // Validate incoming data
+    await request.validate(AlbumValidator)
+
+    // If validation passes, proceed with creating the album
     const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
     const album = await this.albumService.createAlbum(albumData)
 
@@ -29,6 +32,10 @@ export default class AlbumsController {
   }
 
   public async update({ params, request, response }: HttpContextContract) {
+    // Validate incoming data
+    await request.validate(AlbumValidator)
+
+    // If validation passes, proceed with updating the album
     const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
     const album = await this.albumService.updateAlbum(params.id, albumData)
 

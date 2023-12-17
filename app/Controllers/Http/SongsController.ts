@@ -1,8 +1,7 @@
-import { inject } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import SongService from 'App/Services/Song/SongService'
+import SongValidator from 'App/Validators/SongValidator'
 
-@inject()
 export default class SongsController {
   constructor(private readonly songService: SongService) {}
 
@@ -22,6 +21,10 @@ export default class SongsController {
   }
 
   public async store({ request, response }: HttpContextContract) {
+    // Validate incoming data
+    await request.validate(SongValidator)
+
+    // If validation passes, proceed with creating the song
     const songData = request.only(['name', 'artistId', 'albumId', 'duration', 'releaseAt'])
     const song = await this.songService.createSong(songData)
 
@@ -29,6 +32,10 @@ export default class SongsController {
   }
 
   public async update({ params, request, response }: HttpContextContract) {
+    // Validate incoming data
+    await request.validate(SongValidator)
+
+    // If validation passes, proceed with updating the song
     const songData = request.only(['name', 'artistId', 'albumId', 'duration', 'releaseAt'])
     const song = await this.songService.updateSong(params.id, songData)
 
