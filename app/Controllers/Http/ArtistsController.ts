@@ -1,7 +1,9 @@
+import { inject } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import ArtistService from 'App/Services/Artist/ArtistService'
 import ArtistValidator from 'App/Validators/ArtistValidator'
 
+@inject()
 export default class ArtistsController {
   constructor(private readonly artistService: ArtistService) {}
 

@@ -44,4 +44,15 @@ Route.group(() => {
     Route.put('/:id', 'AlbumsController.update')
     Route.delete('/:id', 'AlbumsController.destroy')
   }).prefix('/album')
+
+  /**
+   * User Group Routes
+   */
+  Route.group(() => {
+    Route.get('/', 'UsersController.index')
+    Route.get('/:id', 'UsersController.show')
+    Route.post('/', 'UsersController.store')
+    Route.put('/:id', 'UsersController.update')
+    Route.delete('/:id', 'UsersController.destroy')
+  }).prefix('/user')
 }).prefix('/v1')

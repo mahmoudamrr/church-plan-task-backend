@@ -1,7 +1,8 @@
-import { BaseModel, HasMany, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, BelongsTo, HasMany, belongsTo, column, hasMany } from '@ioc:Adonis/Lucid/Orm'
 import { DateTime } from 'luxon'
 import Album from './Album'
 import Song from './Song'
+import User from './User'
 
 export default class Artist extends BaseModel {
   @column({ isPrimary: true })
@@ -18,6 +19,9 @@ export default class Artist extends BaseModel {
 
   @hasMany(() => Song)
   public song: HasMany<typeof Song>
+
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
 
   @hasMany(() => Album)
   public album: HasMany<typeof Album>

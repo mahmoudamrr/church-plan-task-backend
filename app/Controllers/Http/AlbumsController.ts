@@ -1,7 +1,9 @@
+import { inject } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AlbumService from 'App/Services/Album/AlbumService'
 import AlbumValidator from 'App/Validators/AlbumValidator'
 
+@inject()
 export default class AlbumsController {
   constructor(private readonly albumService: AlbumService) {}
 
