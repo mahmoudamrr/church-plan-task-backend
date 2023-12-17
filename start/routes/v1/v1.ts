@@ -21,7 +21,9 @@ Route.group(() => {
     Route.post('/', 'ArtistsController.store')
     Route.put('/:id', 'ArtistsController.update')
     Route.delete('/:id', 'ArtistsController.destroy')
-  }).prefix('/artist')
+  })
+    .prefix('/artist')
+    .middleware('auth')
 
   /**
    * Song Group Routes
@@ -32,7 +34,9 @@ Route.group(() => {
     Route.post('/', 'SongsController.store')
     Route.put('/:id', 'SongsController.update')
     Route.delete('/:id', 'SongsController.destroy')
-  }).prefix('/song')
+  })
+    .prefix('/song')
+    .middleware('auth')
 
   /**
    * Album Group Routes
@@ -43,7 +47,9 @@ Route.group(() => {
     Route.post('/', 'AlbumsController.store')
     Route.put('/:id', 'AlbumsController.update')
     Route.delete('/:id', 'AlbumsController.destroy')
-  }).prefix('/album')
+  })
+    .prefix('/album')
+    .middleware('auth')
 
   /**
    * User Group Routes
@@ -54,5 +60,16 @@ Route.group(() => {
     Route.post('/', 'UsersController.store')
     Route.put('/:id', 'UsersController.update')
     Route.delete('/:id', 'UsersController.destroy')
-  }).prefix('/user')
+  })
+    .prefix('/user')
+    .middleware('auth')
+
+  /**
+   * Auth Group Routes
+   */
+  Route.group(() => {
+    Route.post('/register', 'AuthController.register')
+    Route.post('/login', 'AuthController.login')
+    Route.post('/logout', 'AuthController.logout')
+  }).prefix('/auth')
 }).prefix('/v1')
