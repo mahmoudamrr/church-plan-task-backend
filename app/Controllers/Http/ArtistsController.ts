@@ -7,8 +7,12 @@ import ArtistValidator from 'App/Validators/ArtistValidator'
 export default class ArtistsController {
   constructor(private readonly artistService: ArtistService) {}
 
-  public async index({ response }: HttpContextContract) {
-    const artists = await this.artistService.getAllArtists()
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const perPage = request.input('perPage', 10)
+
+    const artists = await this.artistService.getAllArtists(page, perPage)
+
     return response.json(artists)
   }
 

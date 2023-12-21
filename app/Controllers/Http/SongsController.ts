@@ -7,8 +7,11 @@ import SongValidator from 'App/Validators/SongValidator'
 export default class SongsController {
   constructor(private readonly songService: SongService) {}
 
-  public async index({ response }: HttpContextContract) {
-    const songs = await this.songService.getAllSongs()
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const perPage = request.input('perPage', 10)
+
+    const songs = await this.songService.getAllSongs(page, perPage)
     return response.json(songs)
   }
 

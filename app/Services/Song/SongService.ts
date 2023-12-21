@@ -1,8 +1,8 @@
 import Song from 'App/Models/Song'
 
 export default class SongService {
-  public async getAllSongs() {
-    return await Song.query().preload('artist').preload('album')
+  public async getAllSongs(page: number = 1, perPage: number = 10) {
+    return await Song.query().preload('artist').preload('album').paginate(page, perPage)
   }
 
   public async findSong(id: number) {

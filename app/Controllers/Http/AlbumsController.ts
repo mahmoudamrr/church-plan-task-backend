@@ -7,8 +7,11 @@ import AlbumValidator from 'App/Validators/AlbumValidator'
 export default class AlbumsController {
   constructor(private readonly albumService: AlbumService) {}
 
-  public async index({ response }: HttpContextContract) {
-    const albums = await this.albumService.getAllAlbums()
+  public async index({ request, response }: HttpContextContract) {
+    const page = request.input('page', 1)
+    const perPage = request.input('perPage', 10)
+
+    const albums = await this.albumService.getAllAlbums(page, perPage)
     return response.json(albums)
   }
 

@@ -1,8 +1,8 @@
 import Album from 'App/Models/Album'
 
 export default class AlbumService {
-  public async getAllAlbums() {
-    return await Album.query().preload('artist').preload('song')
+  public async getAllAlbums(page: number = 1, perPage: number = 10) {
+    return await Album.query().preload('artist').preload('song').paginate(page, perPage)
   }
 
   public async findAlbum(id: number) {

@@ -1,9 +1,8 @@
 import Artist from 'App/Models/Artist'
 
-
 export default class ArtistService {
-  public async getAllArtists() {
-    return await Artist.query().preload('song').preload('album')
+  public async getAllArtists(page: number = 1, perPage: number = 10) {
+    return await Artist.query().preload('song').preload('album').paginate(page, perPage)
   }
 
   public async findArtist(id: number) {
