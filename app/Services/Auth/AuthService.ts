@@ -1,6 +1,7 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Hash from '@ioc:Adonis/Core/Hash'
 import User from 'App/Models/User'
+import NotFoundException from 'App/Exceptions/NotFoundException'
 
 export default class AuthService {
   public async register(userData: any): Promise<User> {
@@ -17,7 +18,7 @@ export default class AuthService {
     const user = await User.findBy('email', email)
 
     if (!user || !(await Hash.verify(user.password, password))) {
-      throw new Error('Invalid credentials')
+      throw new NotFoundException('Invalid credentials')
     }
 
     const token = await auth.use('api').attempt(email, password)
