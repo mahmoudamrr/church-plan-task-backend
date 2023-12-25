@@ -2,62 +2,77 @@ import { inject } from '@adonisjs/core/build/standalone'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import AlbumService from 'App/Services/Album/AlbumService'
 import AlbumValidator from 'App/Validators/AlbumValidator'
+import NotFoundException from 'App/Exceptions/NotFoundException'
 
 @inject()
 export default class AlbumsController {
   constructor(private readonly albumService: AlbumService) {}
 
   public async index({ request, response }: HttpContextContract) {
-    const page = request.input('page', 1)
-    const perPage = request.input('perPage', 10)
+    try {
+      const page = request.input('page', 1)
+      const perPage = request.input('perPage', 10)
 
-    const albums = await this.albumService.getAllAlbums(page, perPage)
-    return response.json(albums)
+      const albums = await this.albumService.getAllAlbums(page, perPage)
+      return response.json(albums)
+    } catch (error) {
+      return response.status(500).json({ error: 'Internal Server Error' })
+    }
   }
 
   public async show({ params, response }: HttpContextContract) {
-    const album = await this.albumService.findAlbum(params.id)
-
-    if (!album) {
-      return response.notFound({ message: 'Album not found' })
+    try {
+      const album = await this.albumService.findAlbum(params.id)
+      return response.json(album)
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        return response.notFound({ message: 'Album not found' })
+      }
+      return response.status(500).json({ error: 'Internal Server Error' })
     }
-
-    return response.json(album)
   }
 
   public async store({ request, response }: HttpContextContract) {
-    // Validate incoming data
-    await request.validate(AlbumValidator)
+    try {
+      await request.validate(AlbumValidator)
 
-    // If validation passes, proceed with creating the album
-    const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
-    const album = await this.albumService.createAlbum(albumData)
+      const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
+      const album = await this.albumService.createAlbum(albumData)
 
-    return response.status(201).json(album)
+      return response.status(201).json(album)
+    } catch (error) {
+      return response.status(500).json({ error: 'Internal Server Error' })
+    }
   }
 
   public async update({ params, request, response }: HttpContextContract) {
-    // Validate incoming data
-    await request.validate(AlbumValidator)
+    try {
+      await request.validate(AlbumValidator)
 
-    // If validation passes, proceed with updating the album
-    const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
-    const album = await this.albumService.updateAlbum(params.id, albumData)
+      const albumData = request.only(['artistId', 'name', 'description', 'coverPhoto', 'releaseAt'])
+      const album = await this.albumService.updateAlbum(params.id, albumData)
 
-    if (!album) {
-      return response.notFound({ message: 'Album not found' })
+      if (!album) {
+        return response.notFound({ message: 'Album not found' })
+      }
+
+      return response.json(album)
+    } catch (error) {
+      return response.status(500).json({ error: 'Internal Server Error' })
     }
-
-    return response.json(album)
   }
 
   public async destroy({ params, response }: HttpContextContract) {
-    const album = await this.albumService.deleteAlbum(params.id)
+    try {
+      const album = await this.albumService.deleteAlbum(params.id)
 
-    if (!album) {
-      return response.notFound({ message: 'Album not found' })
+      if (!album) {
+        return response.notFound({ message: 'Album not found' })
+      }
+
+      return response.noContent()
+    } catch (error) {
+      return response.status(error.status).json({ error: error })
     }
-
-    return response.noContent()
   }
 }
