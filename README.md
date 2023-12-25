@@ -51,13 +51,13 @@ If you prefer running the project with Docker, follow these steps:
 1. Clone the backend repository:
 
     ```bash
-    [git clone https://github.com/mahmoudamrr/church-plan-task-backend.git]
+    git clone https://github.com/mahmoudamrr/church-plan-task-backend.git
     ```
 
 2. Clone the admin repository:
 
     ```bash
-    [git clone https://github.com/mahmoudamrr/church-plan-task-admin.git]
+    git clone https://github.com/mahmoudamrr/church-plan-task-admin.git
     ```
 
 2. Change into the project directory:
@@ -71,3 +71,11 @@ If you prefer running the project with Docker, follow these steps:
     ```bash
     docker-compose up --build
     ```
+    
+4. Set up the database migration:
+
+    ```bash
+    docker-compose exec adonis-app node ace migration:run
+    ```
+
+5. Open your browser and visit [http://localhost:4200](http://localhost:4200) to see the app.
