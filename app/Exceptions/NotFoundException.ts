@@ -1,9 +1,9 @@
 import { Exception } from '@poppinss/utils'
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
-export default class UnAuthorizedException extends Exception {
+export default class NotFoundException extends Exception {
   constructor(message: string) {
-    super(message, 401, 'E_UNAUTHORIZED')
+    super(message, 404, 'E_NOTFOUND')
   }
 
   public async handle(error: this, { response }: HttpContextContract) {
