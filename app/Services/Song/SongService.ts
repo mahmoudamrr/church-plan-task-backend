@@ -1,16 +1,15 @@
 import Song from 'App/Models/Song'
-
 export default class SongService {
   public async getAllSongs(page: number = 1, perPage: number = 10) {
-    return await Song.query().preload('artist').preload('album').paginate(page, perPage)
+    return Song.query().preload('artist').preload('album').paginate(page, perPage)
   }
 
   public async findSong(id: number) {
-    return await Song.query().preload('artist').preload('album').where('id', id).first()
+    return Song.query().preload('artist').preload('album').where('id', id).firstOrFail()
   }
 
   public async createSong(songData: any) {
-    return await Song.create(songData)
+    return Song.create(songData)
   }
 
   public async updateSong(id: number, songData: any) {
@@ -21,12 +20,8 @@ export default class SongService {
   }
 
   public async deleteSong(id: number) {
-    const song = await Song.find(id)
-
-    if (song) {
-      await song.delete()
-    }
-
+    const song = await Song.findOrFail(id)
+    await song.delete()
     return song
   }
 }

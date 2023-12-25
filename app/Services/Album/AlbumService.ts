@@ -2,15 +2,15 @@ import Album from 'App/Models/Album'
 
 export default class AlbumService {
   public async getAllAlbums(page: number = 1, perPage: number = 10) {
-    return await Album.query().preload('artist').preload('song').paginate(page, perPage)
+    return Album.query().preload('artist').preload('song').paginate(page, perPage)
   }
 
   public async findAlbum(id: number) {
-    return await Album.query().preload('artist').preload('song').where('id', id).first()
+    return Album.query().preload('artist').preload('song').where('id', id).firstOrFail()
   }
 
   public async createAlbum(albumData: any) {
-    return await Album.create(albumData)
+    return Album.create(albumData)
   }
 
   public async updateAlbum(id: number, albumData: any) {
@@ -21,11 +21,14 @@ export default class AlbumService {
   }
 
   public async deleteAlbum(id: number) {
-    const album = await Album.find(id)
+    const album = await Album.findOrFail(id)
 
-    if (album) {
-      await album.delete()
-    }
+    // Load and delete associated songs
+    await album.load('song')
+    await Promise.all(album.song.map((song) => song.delete()))
+
+    // Delete the album
+    await album.delete()
 
     return album
   }
