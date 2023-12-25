@@ -8,7 +8,7 @@ export default class SongValidator {
       rules.maxLength(255),
     ]),
     artistId: schema.number([rules.required(), rules.exists({ table: 'artists', column: 'id' })]),
-    albumId: schema.number([rules.required(), rules.exists({ table: 'albums', column: 'id' })]),
+    albumId: schema.number([rules.exists({ table: 'albums', column: 'id' })]),
     duration: schema.number(),
     releaseAt: schema.date.optional(),
   })
@@ -19,7 +19,6 @@ export default class SongValidator {
     'name.maxLength': 'The name cannot be longer than {{ options.maxLength }} characters.',
     'artistId.required': 'The artist ID field is required.',
     'artistId.exists': 'The selected artist does not exist.',
-    'albumId.required': 'The album ID field is required.',
     'albumId.exists': 'The selected album does not exist.',
     'duration.required': 'The duration field is required.',
   }
