@@ -13,6 +13,18 @@ export default class ArtistService {
     return Artist.query().preload('song').preload('album').where('id', id).firstOrFail()
   }
 
+  public async searchArtists(
+    keyword: string,
+    page: number = 1,
+    perPage: number = 10
+  ): Promise<ModelPaginatorContract<Artist>> {
+    return Artist.query()
+      .where((query) => {
+        query.where('firstName', 'LIKE', `%${keyword}%`).orWhere('lastName', 'LIKE', `%${keyword}%`)
+      })
+      .paginate(page, perPage)
+  }
+
   public async createArtist(artistData: any): Promise<Artist> {
     return Artist.create(artistData)
   }

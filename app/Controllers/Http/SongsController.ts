@@ -75,4 +75,18 @@ export default class SongsController {
       return response.status(error.status).json({ error: error })
     }
   }
+
+  public async search({ request, response }: HttpContextContract) {
+    try {
+      const keyword = request.input('keyword', '')
+      const page = request.input('page', 1)
+      const perPage = request.input('perPage', 10)
+
+      const searchResults = await this.songService.searchSongs(keyword, page, perPage)
+
+      return response.json(searchResults)
+    } catch (error) {
+      return response.status(500).json({ error: 'Internal Server Error' })
+    }
+  }
 }

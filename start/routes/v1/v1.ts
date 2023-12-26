@@ -16,6 +16,7 @@ Route.group(() => {
    * Artist Group Routes
    */
   Route.group(() => {
+    Route.get('/search', 'ArtistsController.search')
     Route.get('/', 'ArtistsController.index')
     Route.get('/:id', 'ArtistsController.show')
     Route.post('/', 'ArtistsController.store')
@@ -29,6 +30,7 @@ Route.group(() => {
    * Song Group Routes
    */
   Route.group(() => {
+    Route.get('/search', 'SongsController.search')
     Route.get('/', 'SongsController.index')
     Route.get('/:id', 'SongsController.show')
     Route.post('/', 'SongsController.store')
@@ -42,6 +44,7 @@ Route.group(() => {
    * Album Group Routes
    */
   Route.group(() => {
+    Route.get('/search', 'AlbumsController.search')
     Route.get('/', 'AlbumsController.index')
     Route.get('/:id', 'AlbumsController.show')
     Route.post('/', 'AlbumsController.store')

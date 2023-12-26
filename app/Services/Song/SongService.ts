@@ -1,3 +1,4 @@
+import { ModelPaginatorContract } from '@ioc:Adonis/Lucid/Orm'
 import Song from 'App/Models/Song'
 export default class SongService {
   public async getAllSongs(page: number = 1, perPage: number = 10) {
@@ -6,6 +7,14 @@ export default class SongService {
 
   public async findSong(id: number) {
     return Song.query().preload('artist').preload('album').where('id', id).firstOrFail()
+  }
+
+  public async searchSongs(
+    search: string,
+    page: number = 1,
+    perPage: number = 10
+  ): Promise<ModelPaginatorContract<Song>> {
+    return Song.query().where('name', 'LIKE', `%${search}%`).paginate(page, perPage)
   }
 
   public async createSong(songData: any) {

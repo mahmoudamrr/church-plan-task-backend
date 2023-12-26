@@ -4,7 +4,7 @@ import supertest from 'supertest'
 import Database from '@ioc:Adonis/Lucid/Database'
 import { ArtistFactory } from 'Database/factories/ArtistFactory'
 
-test.group('ArtistsController', (group) => {
+test.group('ArtistsController', () => {
   test('before each', async () => {
     // Reset the database before each test
     await Database.beginGlobalTransaction()
